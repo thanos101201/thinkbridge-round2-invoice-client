@@ -4,7 +4,7 @@ function InvoiceComponent() {
     const [invoices, setInvoices] = useState([]);
     
     const fetchInvoice = async () => {
-        await fetch(`http://${process.env.REACT_INVOICE_SERVER_URL}/api/invoices`)
+        await fetch(`http://${process.env.REACT_APP_INVOICE_SERVER_URL}/api/invoices`)
         .then(async (resp) => {
             var invoiceData = await resp.json();
             if(invoiceData){
@@ -16,6 +16,10 @@ function InvoiceComponent() {
         fetchInvoice();
     },[]);
 
+    useEffect(() => {
+        console.log(invoices);
+    }, [invoices]);
+
     const renderInvoices = () => {
         if(invoices.length == 0){
             return(
@@ -24,12 +28,12 @@ function InvoiceComponent() {
         }
         else{
             return invoices.map((invoice, key) => {
-                <div key={key}>
+                return (<div key={key}>
                     <span>
                         <p>{invoice.name}</p>
                         <p>{invoice.price}</p>
                     </span>
-                </div>
+                </div>)
             })
         }
     }
